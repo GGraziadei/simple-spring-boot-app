@@ -2,8 +2,6 @@ package com.ggraziadei.test.simple_spring_boot_app.dtos;
 
 import java.time.LocalDateTime;
 
-import org.springframework.cglib.core.Local;
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,12 +27,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RestController
 @RequestMapping("/prices")
 public class PriceController {
-    
-    @Autowired
-    private PriceService priceService;
 
-    @Autowired
-    private PriceResponseMapper priceResponseMapper;
+    private final PriceService priceService;
+    private final PriceResponseMapper priceResponseMapper;
+
+    public PriceController(PriceService priceService, PriceResponseMapper priceResponseMapper) {
+        this.priceService = priceService;
+        this.priceResponseMapper = priceResponseMapper;
+    }
     
     @GetMapping
     @Operation(
@@ -63,6 +64,10 @@ public class PriceController {
         @RequestParam @NonNull @Positive Long productId, 
         @RequestParam @NonNull @Positive Long brandId,
         @RequestParam @NonNull LocalDateTime date) {
+
+        if(date.isAfter(LocalDateTime.now())) {
+            throw new IllegalArgumentException("Date cannot be in the future");
+        }
         
         HashMap<Integer, PriceResponseDto> prices = priceService.getPricePerPriceList(productId, brandId, date)
             .entrySet().stream()

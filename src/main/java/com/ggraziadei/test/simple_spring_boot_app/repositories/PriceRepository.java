@@ -1,6 +1,4 @@
 package com.ggraziadei.test.simple_spring_boot_app.repositories;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
